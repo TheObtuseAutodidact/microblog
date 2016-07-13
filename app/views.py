@@ -3,10 +3,12 @@ from flask_login import login_user, logout_user, current_user, login_required
 from app import app, db, lm, oid
 from .forms import LoginForm
 from .models import User
+import pdb
 
 @lm.user_loader
 def load_user(id):
     return User.query.get(int(id))
+
 
 @app.before_request
 def before_request():
@@ -37,7 +39,7 @@ def index():
 @app.route('/login', methods=['GET', 'POST'])
 @oid.loginhandler
 def login():
-    if g.user is not None and g.user.is_authenticated:
+    if g.user is not None and g.user.is_authenticated():
         return redirect(url_for('index'))
     form = LoginForm()
     if form.validate_on_submit():
@@ -61,14 +63,15 @@ def after_login(resp):
         nickname = resp.nickname
         if nickname is None or nickname =="":
             nickname = resp.email.split('@')[0]
-        user = User(nickname=nickname, email = resp.email)
+        user = User(nickname=nickname, email=resp.email)
         db.session.add(user)
         db.session.commit()
     remember_me = False
     if 'remember_me' in session:
         remember_me = session['remember_me']
         session.pop('remember_me', None)
-    login_user(user, remember = remember_me)
+    login_user(user, remember=remember_me)
+    # pdb.set_trace()
     return redirect(request.args.get('next') or url_for('index'))
 
 
