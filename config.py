@@ -14,3 +14,12 @@ OPENID_PROVIDERS = [
     {'name': 'Flickr', 'url': 'http://www.flickr.com/<username>'},
     {'name': 'MyOpenID', 'url': 'https://www.myopenid.com'}
 ]
+
+#  mail server settings
+MAIL_SERVER = 'localhost'
+MAIL_PORT = 2525
+MAIL_USERNAME = None #  adjust this
+MAIL_PASSWORD = None #  adjust this
+
+#  administrator list
+ADMINS = ['theobtuseautodiact@yahoo.com']
